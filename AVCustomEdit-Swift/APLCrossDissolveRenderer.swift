@@ -68,7 +68,7 @@ class APLCrossDissolveRenderer: APLMetalRenderer {
         super.init()
 
         // The default library contains all of the shader functions that were compiled into our app bundle.
-        guard let library = device.newDefaultLibrary() else { return nil }
+		guard let library = device.makeDefaultLibrary() else { return nil }
 
         // Retrieve the functions that will comprise our pipeline.
 
@@ -182,12 +182,12 @@ class APLCrossDissolveRenderer: APLMetalRenderer {
         renderEncoder.setRenderPipelineState(pipelineState)
 
         // Specify vertex, color and texture buffers for the vertex shader function.
-        renderEncoder.setVertexBuffer(vertexBuffer, offset:0, at:0)
-        renderEncoder.setVertexBuffer(colorBuffer, offset:0, at:1)
-        renderEncoder.setVertexBuffer(textureCoordBuffer, offset: 0, at: 2)
+		renderEncoder.setVertexBuffer(vertexBuffer, offset:0, index:0)
+		renderEncoder.setVertexBuffer(colorBuffer, offset:0, index:1)
+		renderEncoder.setVertexBuffer(textureCoordBuffer, offset: 0, index: 2)
 
         // Set a texture for the fragment shader function.
-        renderEncoder.setFragmentTexture(texture, at:0)
+		renderEncoder.setFragmentTexture(texture, index:0)
 
         // Tell the render context we want to draw our primitives.
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: 1)
@@ -217,8 +217,16 @@ class APLCrossDissolveRenderer: APLMetalRenderer {
                                           destinationTexture: destinationPixelBuffer)
 
         // Create a new command buffer for each renderpass to the current drawable.
-        let commandBuffer = commandQueue.makeCommandBuffer()
-        commandBuffer.label = "MyCommand"
+		guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+			return
+		}
+		
+		commandBuffer.label = "MyCommand"
+
+		defer {
+			// Finalize rendering here & push the command buffer to the GPU.
+			commandBuffer.commit()
+		}
 
         /*
          Obtain a drawable texture for this render pass and set up the renderpass
@@ -227,16 +235,18 @@ class APLCrossDissolveRenderer: APLMetalRenderer {
         let renderPassDescriptor = setupRenderPassDescriptorForTexture(destinationTexture)
 
         // Create a render command encoder so we can render into something.
-        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
-        renderEncoder.label = "MyRenderEncoder"
+		guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
+			return
+		}
+		renderEncoder.label = "MyRenderEncoder"
 
         guard let foregroundPipelineState = foregroundRenderPipelineState else { return }
 
         // Render foreground texture.
-        renderTexture(renderEncoder, texture: foregroundTexture,
+		renderTexture(renderEncoder, texture: foregroundTexture,
                       pipelineState: foregroundPipelineState)
 
-        renderEncoder.setBlendColor(red: 0, green: 0, blue: 0, alpha: tween)
+		renderEncoder.setBlendColor(red: 0, green: 0, blue: 0, alpha: tween)
 
         guard let backgroundPipelineState = backgroundRenderPipelineState else { return }
 
@@ -248,11 +258,8 @@ class APLCrossDissolveRenderer: APLMetalRenderer {
         renderEncoder.endEncoding()
 
         // Use the command buffer completion block to release the reference to the pixel buffers.
-        commandBuffer.addCompletedHandler({ _ in
+		commandBuffer.addCompletedHandler({ _ in
             self.pixelBuffers = nil // Release the reference to the pixel buffers.
         })
-
-        // Finalize rendering here & push the command buffer to the GPU.
-        commandBuffer.commit()
     }
 }

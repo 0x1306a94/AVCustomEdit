@@ -187,7 +187,7 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
     }
 
     // Called when the Set Transition view controller 'Done' button is pressed.
-    func doneAction() {
+	@objc func doneAction() {
         // Dismiss the view controller that was presented.
         self.dismiss(animated: true) {}
     }
@@ -257,8 +257,8 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
             
             self.clips.append(asset)
             // This code assumes that both assets are atleast 5 seconds long.
-            self.clipTimeRanges.append(CMTimeRange(start: CMTimeMakeWithSeconds(0, 1),
-                                                   duration: CMTimeMakeWithSeconds(5, 1)))
+			self.clipTimeRanges.append(CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
+												   duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1)))
             dispatchGroup.leave()
         })
     }
@@ -305,10 +305,10 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
         
         // Transitions.
         if transitionsEnabled {
-            self.editor.transitionDuration = CMTimeMakeWithSeconds(transitionDuration, 600)
+			self.editor.transitionDuration = CMTimeMakeWithSeconds(transitionDuration, preferredTimescale: 600)
             self.editor.transitionType = transitionType
         } else {
-            self.editor.transitionDuration = kCMTimeInvalid
+			self.editor.transitionDuration = CMTime.invalid
         }
         
         // Build AVComposition and AVVideoComposition objects for playback.
@@ -351,14 +351,15 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
         if __inline_isfinited(duration) != 0 {
             
             let width = (Double(scrubber.bounds.width))
-            var interval = 0.5 * duration.divided(by: width)
+
+            var interval = 0.5 * (duration / width)
             
             // The time label needs to update at least once per second.
             if interval > 1.0 {
                 interval = 1.0
             }
 
-            let updateTime = CMTimeMakeWithSeconds(interval, Int32(NSEC_PER_SEC))
+			let updateTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
             timeObserver =
                 self.player.addPeriodicTimeObserver(forInterval: updateTime, queue: DispatchQueue.main,
                                                     using: { [unowned self] _ in
@@ -378,11 +379,11 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
 
     func playerItemDuration() -> CMTime {
         
-        var itemDuration = kCMTimeInvalid
+		var itemDuration = CMTime.invalid
         
         guard let playerItem = self.player.currentItem else { return itemDuration }
         
-        if playerItem.status == AVPlayerItemStatus.readyToPlay {
+		if playerItem.status == AVPlayerItem.Status.readyToPlay {
             itemDuration = playerItem.duration
         }
         
@@ -427,7 +428,7 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
 
     func updatePlayPauseButton() {
 
-        let style = playing ?  UIBarButtonSystemItem.pause : UIBarButtonSystemItem.play
+		let style = playing ?  UIBarButtonItem.SystemItem.pause : UIBarButtonItem.SystemItem.play
         let newPlayPauseButton = UIBarButtonItem(barButtonSystemItem: style, target: self,
                                                  action: #selector(togglePlayPause(_:)))
         
@@ -464,16 +465,16 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
         let duration = CMTimeGetSeconds(playerItemDuration())
         if __inline_isfinited(duration) != 0 {
             let time = CMTimeGetSeconds(player.currentTime())
-            scrubber.setValue(Float(time.divided(by: duration)), animated: true)
+            scrubber.setValue(Float(time/duration), animated: true)
         } else {
             scrubber.setValue(0, animated: true)
         }
     }
 
-    func updateProgress(_ timer: Timer) {
+	@objc func updateProgress(_ timer: Timer) {
 
         guard let session = timer.userInfo as? AVAssetExportSession else { return }
-        if session.status == AVAssetExportSessionStatus.exporting {
+		if session.status == AVAssetExportSession.Status.exporting {
             exportProgressView?.progress = session.progress
         }
     }
@@ -496,7 +497,7 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
         playing = !playing
         if playing {
             if seekToZeroBeforePlaying {
-                player.seek(to: kCMTimeZero)
+				player.seek(to: CMTime.zero)
                 seekToZeroBeforePlaying = false
                 updateScrubber()
             }
@@ -535,14 +536,14 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
             }
             let width = scrubber.bounds.width
             
-            let time = duration.multiplied(by: Float64(sliderValue))
-            let tolerance = 1 * duration.divided(by: Float64(width))
+            let time = duration * Float64(sliderValue)
+            let tolerance = 1 * (duration / Float64(width))
             
             scrubInFlight = true
             
-            player.seek(to: CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC)),
-                        toleranceBefore: CMTimeMakeWithSeconds(tolerance, Int32(NSEC_PER_SEC)),
-                        toleranceAfter: CMTimeMakeWithSeconds(tolerance, Int32(NSEC_PER_SEC)),
+			player.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC)),
+						toleranceBefore: CMTimeMakeWithSeconds(tolerance, preferredTimescale: Int32(NSEC_PER_SEC)),
+						toleranceAfter: CMTimeMakeWithSeconds(tolerance, preferredTimescale: Int32(NSEC_PER_SEC)),
                         completionHandler: { (_) in
                             self.scrubInFlight = false
                             self.updateTimeLabel()
@@ -562,7 +563,7 @@ class APLViewController: UIViewController, UIGestureRecognizerDelegate, UIPopove
     }
     
     // Called when the player item has played to its end time.
-    func playerItemDidReachEnd(_ notification: Notification) {
+	@objc func playerItemDidReachEnd(_ notification: Notification) {
 
         // After the movie has played to its end time, seek back to time zero to play it again.
         seekToZeroBeforePlaying = true

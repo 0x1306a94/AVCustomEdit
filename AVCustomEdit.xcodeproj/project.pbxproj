@@ -353,12 +353,12 @@
 				TargetAttributes = {
 					AFA161FB1E2C1FDB00247692 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 65PMYRRX45;
+						DevelopmentTeam = 492U995837;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Manual;
 					};
 					EFB5E86416C0703900FA50C1 = {
-						DevelopmentTeam = 65PMYRRX45;
+						DevelopmentTeam = 492U995837;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -368,6 +368,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -496,20 +497,20 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 65PMYRRX45;
+				DEVELOPMENT_TEAM = 492U995837;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "AVCustomEdit-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dpark.ParseStarterProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.taihe.ParseStarterProject.swift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7117f2a-b6d4-46f8-9eb8-93d8898f9767";
-				PROVISIONING_PROFILE_SPECIFIER = "av composite dev for Dan";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.taihe.*";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -525,7 +526,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 65PMYRRX45;
+				DEVELOPMENT_TEAM = 492U995837;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -533,12 +534,12 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dpark.ParseStarterProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.taihe.ParseStarterProject.swift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7117f2a-b6d4-46f8-9eb8-93d8898f9767";
-				PROVISIONING_PROFILE_SPECIFIER = "av composite dev for Dan";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.taihe.*";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -629,7 +630,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 65PMYRRX45;
+				DEVELOPMENT_TEAM = 492U995837;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AVCustomEdit/AVCustomEdit-Prefix.pch";
@@ -637,10 +638,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dpark.ParseStarterProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.taihe.ParseStarterProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7117f2a-b6d4-46f8-9eb8-93d8898f9767";
-				PROVISIONING_PROFILE_SPECIFIER = "av composite dev for Dan";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.taihe.*";
 				SWIFT_VERSION = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -656,7 +657,7 @@
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 65PMYRRX45;
+				DEVELOPMENT_TEAM = 492U995837;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AVCustomEdit/AVCustomEdit-Prefix.pch";
@@ -664,10 +665,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dpark.ParseStarterProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.taihe.ParseStarterProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d7117f2a-b6d4-46f8-9eb8-93d8898f9767";
-				PROVISIONING_PROFILE_SPECIFIER = "av composite dev for Dan";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.taihe.*";
 				SWIFT_VERSION = "";
 				WRAPPER_EXTENSION = app;
 			};

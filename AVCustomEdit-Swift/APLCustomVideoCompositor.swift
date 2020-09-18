@@ -44,7 +44,11 @@ class APLCustomVideoCompositor: NSObject, AVVideoCompositing {
     }
 
     /// Instance of `APLMetalRenderer` used to issue rendering commands to subclasses.
-    private var metalRenderer: APLMetalRenderer
+    private var metalRenderer: APLMetalRenderer?
+
+	override init() {
+		super.init()
+	}
 
     fileprivate init(metalRenderer: APLMetalRenderer) {
         self.metalRenderer = metalRenderer
@@ -133,6 +137,7 @@ class APLCustomVideoCompositor: NSObject, AVVideoCompositing {
 
         if renderContextDidChange { renderContextDidChange = false }
 
+		guard let metalRenderer = metalRenderer else { return nil }
         metalRenderer.renderPixelBuffer(dstPixels, usingForegroundSourceBuffer:foregroundSourceBuffer,
                                         andBackgroundSourceBuffer:backgroundSourceBuffer,
                                         forTweenFactor:Float(tweenFactor))
@@ -143,16 +148,16 @@ class APLCustomVideoCompositor: NSObject, AVVideoCompositing {
 
 class APLCrossDissolveCompositor: APLCustomVideoCompositor {
 
-    init?() {
-        guard let newRenderer = APLCrossDissolveRenderer() else { return nil }
+	override init() {
+        guard let newRenderer = APLCrossDissolveRenderer() else { fatalError("") }
         super.init(metalRenderer: newRenderer)
     }
 }
 
 class APLDiagonalWipeCompositor: APLCustomVideoCompositor {
 
-    init?() {
-        guard let newRenderer = APLDiagonalWipeRenderer() else { return nil }
+	override init() {
+        guard let newRenderer = APLDiagonalWipeRenderer() else { fatalError("") }
         super.init(metalRenderer: newRenderer)
     }
 }
