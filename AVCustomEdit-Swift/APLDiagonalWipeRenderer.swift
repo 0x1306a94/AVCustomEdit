@@ -290,7 +290,7 @@ class APLDiagonalWipeRenderer: APLMetalRenderer {
 		}
 
         // Texture data varies from 0 -> 1, whereas vertex data varies from -1 -> 1.
-        var quadTextureData1: [Float] = [
+		let quadTextureData1: [Float] = [
             0.5 + quadVertexData1[0]/2, 0.5 + quadVertexData1[1]/2,
             0.5 + quadVertexData1[2]/2, 0.5 + quadVertexData1[3]/2,
             0.5 + quadVertexData1[4]/2, 0.5 + quadVertexData1[5]/2,
@@ -330,7 +330,7 @@ class APLDiagonalWipeRenderer: APLMetalRenderer {
 			return
 		}
 
-        var quadTextureData2: [Float] = [
+		let quadTextureData2: [Float] = [
             0.5 + quadVertexData2[0]/2, 0.5 + quadVertexData2[1]/2,
             0.5 + quadVertexData2[2]/2, 0.5 + quadVertexData2[3]/2,
             0.5 + quadVertexData2[4]/2, 0.5 + quadVertexData2[5]/2,

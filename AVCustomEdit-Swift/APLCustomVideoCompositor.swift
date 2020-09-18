@@ -51,6 +51,7 @@ class APLCustomVideoCompositor: NSObject, AVVideoCompositing {
 	}
 
     fileprivate init(metalRenderer: APLMetalRenderer) {
+		super.init()
         self.metalRenderer = metalRenderer
     }
 
